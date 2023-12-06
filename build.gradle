@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.honey.demo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	all {
+		exclude group: "org.slf4j", module: "slf4j-log4j12"
+		exclude group: "log4j", module: "log4j"
+	}
+}
+
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.batch:spring-batch-core:5.0.2'
+
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.470' // AWS SDK for S3
+	implementation 'org.apache.parquet:parquet-avro:1.13.1' // Apache Parquet
+	implementation 'org.apache.hadoop:hadoop-aws:3.3.2' // Hadoop AWS for S3 integration
+	// Hadoop dependencies for Parquet file handling
+	implementation 'org.apache.hadoop:hadoop-common:3.3.2'
+	implementation 'org.apache.hadoop:hadoop-aws:3.3.2'
+	implementation 'org.apache.hadoop:hadoop-mapreduce-client-core:3.3.2'
+	implementation 'org.projectlombok:lombok:1.18.28'
+	implementation("software.amazon.awssdk:s3:2.20.56")
+	implementation(platform("software.amazon.awssdk:bom:2.20.109"))
+	testImplementation 'junit:junit:4.13.1'
+
+	runtimeOnly 'com.h2database:h2:2.1.214'
+	runtimeOnly 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.batch:spring-batch-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.batch:spring-batch-test'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
